@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Lukas Rusak (lrusak@libreelec.tv)
+
+ADDON_HOME_DIR="/storage/.docker"
+
+if [ ! -d "$ADDON_HOME_DIR/config" ]; then
+  mkdir -p $ADDON_HOME_DIR/config
+fi
+
+if [ ! -f "$ADDON_HOME_DIR/config/docker.conf" ]; then
+  cp /etc/docker.conf.sample $ADDON_HOME_DIR/config/docker.conf
+fi
+
+if [ ! -d "$ADDON_HOME_DIR/docker" ]; then
+  mkdir -p $ADDON_HOME_DIR/docker
+fi
+
+if [ ! -d /var/lib/docker ]; then
+  ln -sf $ADDON_HOME_DIR/docker /var/lib/docker
+fi

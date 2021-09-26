@@ -1,0 +1,15 @@
+--- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi	2021-09-24 13:41:33.000000000 +0000
++++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi	2021-09-24 13:40:53.000000000 +0000
+@@ -23,6 +23,12 @@
+ 		mmc2 = &sd_emmc_a;
+ 	};
+ 
++	openvfd {
++		compatible = "open,vfd";
++		dev_name = "openvfd";
++		status = "okay";
++	};
++	
+ 	chosen {
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
