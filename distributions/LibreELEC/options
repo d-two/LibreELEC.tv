@@ -71,7 +71,7 @@
 
 ### KODI SETTINGS ###
 # Mediacenter to use (kodi / no)
-  MEDIACENTER="kodi"
+  MEDIACENTER="no"
 
 # Skins to install (Estuary)
 # Space separated list is supported,
@@ -232,4 +232,4 @@
 # additional packages to install:
 # Space separated list is supported,
 # e.g. ADDITIONAL_PACKAGES="PACKAGE1 PACKAGE2"
-  ADDITIONAL_PACKAGES="docker-ce"
+  ADDITIONAL_PACKAGES="docker-ce" # home-assistant"
