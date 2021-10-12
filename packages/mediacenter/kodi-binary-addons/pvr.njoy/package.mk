@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="pvr.njoy"
-PKG_VERSION="19.0.0-Matrix"
-PKG_SHA256="55644b3e7b09f0ae14ccbe55b569b5add782b72fb973e1545414f17c2613a4a8"
+PKG_VERSION="20.1.0-Nexus"
+PKG_SHA256="5762067b7fd574e188c53ffc3459e39114b14d17f94efa745a765e28fb3341e0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

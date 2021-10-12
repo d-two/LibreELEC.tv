@@ -22,14 +22,14 @@ case "${LINUX}" in
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
     ;;
   raspberrypi)
-    PKG_VERSION="a5d2df01fe25d6fce11485c4d8ae0c0a1ddef43a" # 5.10.63
-    PKG_SHA256="678bea81a8ca78932720618399a980ce64decea381125c8fb2b086b0eaa2d51c"
+    PKG_VERSION="24c8b0546a820222a1ebcfe606dfacb0e228c466" # 5.10.63
+    PKG_SHA256="5ca7462db8d06840479c3a7bf9fc196ae1585faba597f69db3618ccb31c2a4d4"
     PKG_URL="https://github.com/raspberrypi/linux/archive/${PKG_VERSION}.tar.gz"
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
     ;;
   *)
-    PKG_VERSION="5.14"
-    PKG_SHA256="7e068b5e0d26a62b10e5320b25dce57588cbbc6f781c090442138c9c9c3271b2"
+    PKG_VERSION="5.14.9"
+    PKG_SHA256="ba8f07db92d514a2636e882bcd646f79f1c8ab83f5ad82910732dd0ec83c87e6"
     PKG_URL="https://www.kernel.org/pub/linux/kernel/v5.x/${PKG_NAME}-${PKG_VERSION}.tar.xz"
     PKG_PATCH_DIRS="default"
     ;;
@@ -179,7 +179,7 @@ pre_make_target() {
         continue
       fi
 
-      if [ "$($PKG_BUILD/scripts/config --state ${OPTION%%=*})" != "${OPTION##*=}" ]; then
+      if [ "$(${PKG_BUILD}/scripts/config --state ${OPTION%%=*})" != "${OPTION##*=}" ]; then
         MISSING_KERNEL_OPTIONS+="\t${OPTION}\n"
       fi
     done < ${DISTRO_DIR}/${DISTRO}/kernel_options
