@@ -19,7 +19,24 @@ PKG_TOOLCHAIN="manual"
 pre_configure_target() {
   cd ${PKG_BUILD}/libraries/libapparmor
   ./autogen.sh
-  ./configure --host=armv8a-libreelec-linux-gnueabihf --build=x86_64-linux-gnu --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --libdir=/usr/lib --libexecdir=/usr/lib --localstatedir=/var --disable-static --enable-shared --disable-man-pages
+  ./configure --host=${TARGET_NAME} \
+              --build=${HOST_NAME} \
+			  --prefix=/usr \
+			  --bindir=/usr/bin \
+			  --sbindir=/usr/sbin \
+			  --sysconfdir=/etc \
+			  --libdir=/usr/lib \
+			  --libexecdir=/usr/lib \
+			  --localstatedir=/var \
+			  --enable-static \
+			  --disable-shared \
+			  --disable-man-pages \
+			  --without-python \
+			  ac_cv_prog_cc_c99=-std=gnu99
+}
+
+post_unpack() {
+  sed -i 's|-static-libstdc++||g' ${PKG_BUILD}/parser/Makefile  
 }
 
 make_target() {
@@ -27,30 +44,49 @@ make_target() {
   make
 }
 
-makeinstall_host() {
-  mkdir -p ${TOOLCHAIN}/usr/lib
-    cp -P src/.libs/libapparmor.* ${TOOLCHAIN}/usr/lib
-  
-  mkdir -p ${TOOLCHAIN}/lib/pkgconfig
-    cp src/libapparmor.pc ${TOOLCHAIN}/lib/pkgconfig
-	
-  mkdir -p ${TOOLCHAIN}/include/sys
-    cp include/aalogparse.h ${TOOLCHAIN}/include
-	cp include/sys/apparmor.h ${TOOLCHAIN}/include/sys
-    cp include/sys/apparmor_private.h ${TOOLCHAIN}/include/sys
-}
+#makeinstall_host() {
+#  mkdir -p ${TOOLCHAIN}/lib
+#    cp -P src/.libs/libapparmor.* ${TOOLCHAIN}/lib
+#  
+#  mkdir -p ${TOOLCHAIN}/lib/pkgconfig
+#    cp src/libapparmor.pc ${TOOLCHAIN}/lib/pkgconfig
+#	
+#  mkdir -p ${TOOLCHAIN}/include/sys
+#    cp include/aalogparse.h ${TOOLCHAIN}/include
+#    cp include/sys/apparmor.h ${TOOLCHAIN}/include/sys
+#    cp include/sys/apparmor_private.h ${TOOLCHAIN}/include/sys
+#}
 
 makeinstall_target() {
-  cd ${PKG_BUILD}/libraries/libapparmor
-    ${STRIP} src/.libs/*.so*
-    cp -L src/.libs/*.so* ${SYSROOT_PREFIX}/usr/lib
+  cd ${PKG_BUILD}/parser
+  make DISTRO=unknown
+  make DESTDIR=${PKG_INSTALL}/ install
+  
+  mkdir -p ${PKG_INSTALL}/usr
+  mv ${PKG_INSTALL}/lib ${PKG_INSTALL}/usr/
+  mv ${PKG_INSTALL}/sbin ${PKG_INSTALL}/usr/
+  #make install
 
-  mkdir -p ${SYSROOT_PREFIX}/usr/include/sys
-    cp include/aalogparse.h ${SYSROOT_PREFIX}/usr/include
-	cp include/sys/apparmor.h ${SYSROOT_PREFIX}/usr/include/sys
-    cp include/sys/apparmor_private.h ${SYSROOT_PREFIX}/usr/include/sys
-    cp -L src/libapparmor.pc ${SYSROOT_PREFIX}/usr/lib/pkgconfig
+  #cd ${PKG_BUILD}/libraries/libapparmor
+  #  cp -P src/.libs/libapparmor.* ${TOOLCHAIN}/lib
+    #${STRIP} src/.libs/*.so*
+    #cp -L src/.libs/*.so* ${SYSROOT_PREFIX}/usr/lib
 
-  mkdir -p ${PKG_INSTALL}/usr/lib
-    cp -PL src/.libs/*.so* ${PKG_INSTALL}/usr/lib
+  #mkdir -p ${TOOLCHAIN}/lib/pkgconfig
+  #  cp src/libapparmor.pc ${TOOLCHAIN}/lib/pkgconfig
+
+  #mkdir -p ${SYSROOT_PREFIX}/usr/include/sys
+  #  cp include/aalogparse.h ${SYSROOT_PREFIX}/usr/include
+#	cp include/sys/apparmor.h ${SYSROOT_PREFIX}/usr/include/sys
+#    cp include/sys/apparmor_private.h ${SYSROOT_PREFIX}/usr/include/sys
+#    cp -L src/libapparmor.pc ${SYSROOT_PREFIX}/usr/lib/pkgconfig
+
+ # mkdir -p ${PKG_INSTALL}/usr/lib
+    #cp -PL src/.libs/*.so* ${PKG_INSTALL}/usr/lib
 }
+
+#post_install() {
+#  cd ${PKG_BUILD}/parser
+#  make DISTRO=unknown
+#  make DESTDIR=${PKG_INSTALL}/ install
+#}

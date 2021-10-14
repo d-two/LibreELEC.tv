@@ -1,0 +1,12 @@
+[Unit]
+Description=NetworkManager persistent system connections
+Before=NetworkManager.service
+
+[Mount]
+What=/storage/.config/network
+Where=/etc/NetworkManager
+Options=bind
+Type=None
+
+[Install]
+WantedBy=multi-user.target

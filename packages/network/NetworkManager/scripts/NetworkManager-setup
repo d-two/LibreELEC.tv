@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# creating initial settings files
+  if [ ! -f /storage/.config/network ]; then
+    mkdir -p /storage/.config/network
+      cp -r /usr/share/NetworkManager/* /storage/.config/network
+  fi
+

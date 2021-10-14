@@ -8,7 +8,7 @@ PKG_SHA256="629b8c895efa000b921092c7a565680c66dcd0ec74ed11cb2dd2b6701492675d"
 PKG_LICENSE="LGPL2.1+"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd-stable/archive/v${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain libcap kmod util-linux entropy libidn2 wait-time-sync apparmor"
+PKG_DEPENDS_TARGET="toolchain libcap kmod util-linux entropy libidn2 wait-time-sync" #apparmor
 PKG_LONGDESC="A system and session manager for Linux, compatible with SysV and LSB init scripts."
 
 PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
@@ -20,7 +20,7 @@ PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
                        -Dtests=false \
                        -Dseccomp=false \
                        -Dselinux=false \
-                       -Dapparmor=true \
+                       -Dapparmor=false \
                        -Dpolkit=false \
                        -Dacl=false \
                        -Daudit=false \
@@ -66,8 +66,8 @@ PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
                        -Dportabled=false \
                        -Duserdb=false \
                        -Dhomed=false \
-                       -Dnetworkd=false \
-                       -Dtimedated=false \
+                       -Dnetworkd=true \
+                       -Dtimedated=true \
                        -Dtimesyncd=true \
                        -Dfirstboot=false \
                        -Drandomseed=false \
